@@ -16,6 +16,5 @@ steps:
     containerRegistry: 'fedeRegistry'
     repository: 'prova2'
     command: 'buildAndPush'
-    Dockerfile: 'nginx/Dockerfile'
-- script: |
-    
+    Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+
