@@ -1,17 +1,7 @@
-ARG BASEIMAGE
+FROM nginx
 
-FROM $BASEIMAGE
-
-#FROM nginx
-
-RUN echo $BASEIMAGE
-
-RUN rm /etc/nginx/conf.d/*
-
-RUN echo "files are deleted"
-
-ADD helloworld.conf /etc/nginx/conf.d/
-
-ADD index.html /usr/share/nginx/html/
-
-ADD arti-error.txt /usr/share/nginx/html/
+WORKDIR /app
+ 
+COPY . /usr/share/nginx/index.html
+ 
+#ENTRYPOINT ["mkdir", "myfolder"]
