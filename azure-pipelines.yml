@@ -30,7 +30,7 @@ steps:
      displayName: 'Install Build deps'
      inputs:
        artifactoryService: 'newConnection'
-       cliInstallationRepo: 'cli' 
+       cliInstallationRepo: 'jfrogcli' 
  
    - task: ArtifactoryDocker@1
      displayName: 'Pull Image'
