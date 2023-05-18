@@ -16,5 +16,5 @@ steps:
     containerRegistry: 'fedeRegistry'
     repository: 'prova2'
     command: 'buildAndPush'
-    Dockerfile: '$(Build.SourcesDirectory)/immagine/Dockerfile'
+    Dockerfile: '/_work/5/s/immagine/Dockerfile'
 
