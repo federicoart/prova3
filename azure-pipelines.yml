@@ -1,19 +1,79 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
 pool: 'fede2WSL'
+parameters:
 
+- name: prodName
+  displayName: Product to Build
+  type: string
+  default: 'nginx'
+- name: registry
+  displayName: Registry Hostname
+  type: string
+  default: a0muixhnkluno.jfrog.io'
+- name: targetRepo
+  displayName: Target Repo to push to
+  type: string
+  default: 'prova2'
+ 
+variables:
+ prodName: ${{ parameters.prodName }}
+ registry: ${{ parameters.registry }}
+ targetRepo: ${{ parameters.targetRepo }}
+ buildContext: 'test-$(prodName)'
+ imageNameTb: '$(registry)/$(targetRepo)/test-$(prodName)'
+ imageNameBase: '$(registry)/$(targetRepo)/$(prodName)'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+   - task: ArtifactoryToolsInstaller@1
+     displayName: 'Install Build deps'
+     inputs:
+       artifactoryService: 'newConnection'
+       cliInstallationRepo: 'cli' 
+ 
+   - task: ArtifactoryDocker@1
+     displayName: 'Pull Image'
+     inputs:
+       command: 'pull'
+       artifactoryService: 'newConnection'
+       sourceRepo: 'prova2'
+       imageName: '$(imageNameBase)'
+ 
+   - task: Docker@2
+     displayName: 'Build Image'
+     inputs:
+       containerRegistry: 'fedeRegistry'
+       repository: '$(targetRepo)/$(buildContext)'
+       command: 'build'
+       Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+       arguments: '--build-arg BASEIMAGE=$(imageNameBase)'
+       tags: |
+         $(Build.BuildNumber)
+  
+   - task: ArtifactoryDocker@1
+     displayName: 'Push Image'
+     inputs:
+       command: 'push'
+       artifactoryService: 'newConnection'
+       targetRepo: 'nginx'
+       imageName: '$(imageNameTb):$(Build.BuildNumber)'
+       collectBuildInfo: true
+       buildName: '$(Build.DefinitionName)'
+       buildNumber: '$(Build.BuildNumber)'
+       includeEnvVars: true
+ 
+   - task: ArtifactoryPublishBuildInfo@1
+     displayName: 'Publish Build Info'
+     inputs:
+       artifactoryService: 'newConnection'
+       buildName: '$(Build.DefinitionName)'
+       buildNumber: '$(Build.BuildNumber)'
+  
+   - task: ArtifactoryXrayScan@1
+     displayName: 'Xray Scan'
+     inputs:
+       artifactoryService: 'newConnection'
+       buildName: '$(Build.DefinitionName)'
+       buildNumber: '$(Build.BuildNumber)'
+       allowFailBuild: true
