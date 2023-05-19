@@ -26,8 +26,8 @@ steps:
 #    Dockerfile: '$(Build.SourcesDirectory)/**/Dockerfile'
 #    tags: '$(Build.BuildNumber)'
 
- - task: ArtifactoryDocker@1
-   inputs:
+- task: ArtifactoryDocker@1
+  inputs:
      command: 'push'
      artifactoryService: 'newConnection'
      targetRepo: 'prova2'
