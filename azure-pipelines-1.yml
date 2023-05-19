@@ -14,7 +14,7 @@ steps:
       command: 'build'
       Dockerfile: '**/Dockerfile'
       tags: '$(Build.BuildNumber)'
-      buildContext: '$(Build.SourcesDirectory)'
+
 
   - task: ArtifactoryDocker@1
     displayName: 'Push Docker Image to Artifactory'
