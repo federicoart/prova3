@@ -10,8 +10,6 @@ steps:
     cliInstallationRepo: 'jfrogcli'
 - task: Docker@2
   inputs:
-    containerRegistry: 'fedeRegistry'
-    repository: 'prova2'
     command: 'Build'
     Dockerfile: '**/Dockerfile'
     tags: '$(Build.BuildNumber)'
@@ -23,4 +21,5 @@ steps:
     command: 'Push'
     Dockerfile: '**/Dockerfile'
     tags: '$(Build.BuildNumber)'
+    buildContext: '$(Build.SourcesDirectory)'
     context: '$(Build.ArtifactStagingDirectory)' 
