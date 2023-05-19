@@ -20,9 +20,11 @@ steps:
     command: 'Build'
     Dockerfile: '**/Dockerfile'
 
+
 - task: Docker@2
   inputs:
     containerRegistry: 'fedeRegistry'
     repository: 'prova2'
     command: 'Push'
     Dockerfile: '**/Dockerfile'
+    tags: '279' # mi chiamo una gia esistente
