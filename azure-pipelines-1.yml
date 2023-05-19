@@ -18,11 +18,19 @@ steps:
     tags: '$(Build.BuildNumber)'
 
 
-- task: Docker@2
-  inputs:
-    containerRegistry: 'fedeRegistry'
-    repository: 'prova2'
-    command: 'Push'
-    Dockerfile: '$(Build.SourcesDirectory)/**/Dockerfile'
-    tags: '$(Build.BuildNumber)'
-    
+#- task: Docker@2
+#  inputs:
+#    containerRegistry: 'fedeRegistry'
+#    repository: 'prova2'
+#    command: 'Push'
+#    Dockerfile: '$(Build.SourcesDirectory)/**/Dockerfile'
+#    tags: '$(Build.BuildNumber)'
+
+ - task: ArtifactoryDocker@1
+   inputs:
+     command: 'push'
+     artifactoryService: 'newConnection'
+     targetRepo: 'prova2'
+     collectBuildInfo: true
+     buildName: '$(Build.DefinitionName)'
+     buildNumber: '$(Build.BuildNumber)'
