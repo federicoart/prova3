@@ -23,7 +23,6 @@ steps:
     containerRegistry: 'fedeRegistry'
     repository: 'prova2'
     command: 'Push'
-    Dockerfile: '**/Dockerfile'
+    Dockerfile: '$(Build.SourcesDirectory)/**/Dockerfile'
     tags: '$(Build.BuildNumber)'
-    buildContext: '$(Build.SourcesDirectory)'
     
