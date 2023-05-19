@@ -9,6 +9,10 @@ trigger:
 pool: 'fede2WSL'
 
 steps:
+- task: ArtifactoryToolsInstaller@1
+  inputs:
+    artifactoryService: 'newConnection'
+    cliInstallationRepo: 'jfrogcli'
 - task: Docker@2
   inputs:
     containerRegistry: 'fedeRegistry'
