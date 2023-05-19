@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
@@ -19,7 +14,7 @@ steps:
     repository: 'prova2'
     command: 'Build'
     Dockerfile: '**/Dockerfile'
-
+    tags: '$(Build.BuildNumber)'
 
 - task: Docker@2
   inputs:
@@ -27,4 +22,5 @@ steps:
     repository: 'prova2'
     command: 'Push'
     Dockerfile: '**/Dockerfile'
-    tags: '279' # mi chiamo una gia esistente
+    tags: '$(Build.BuildNumber)'
+    context: '$(Build.ArtifactStagingDirectory)' 
