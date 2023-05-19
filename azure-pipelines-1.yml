@@ -3,28 +3,33 @@ trigger:
     include:
       - main
 
-pool: 'fede2WSL'
-steps:
-- task: ArtifactoryToolsInstaller@1
-  inputs:
-    artifactoryService: 'newConnection'
-    cliInstallationRepo: 'jfrogcli'
-- task: Docker@2
-  inputs:
-     containerRegistry: 'fedeRegistry'
-     repository: 'prova2'
-     command: 'buildAndPush'
-     Dockerfile: '**/Dockerfile'
-     tags: '$(Build.BuildNumber)'
-     buildContext: '$(Build.SourcesDirectory)'
+pool:
+  vmImage: 'ubuntu-latest'
 
-- script: |
+steps:
+  - task: ArtifactoryToolsInstaller@1
+    inputs:
+      artifactoryService: 'newConnection'
+      cliInstallationRepo: 'jfrogcli'
+
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'fedeRegistry'
+      repository: 'prova2'
+      command: 'build'
+      Dockerfile: '**/Dockerfile'
+      tags: '$(Build.BuildNumber)'
+      buildContext: '$(Build.SourcesDirectory)'
+
+  - script: |
       apt-get update && apt-get install -yq curl
       response=$(curl -I -u fede:';+i5}SAf^+x3F;*' -s -o /dev/null -w "%{http_code}" https://diocane.jfrog.io/artifactory/prova2/)
       if [ $response -eq 200 ]; then
         echo "Artifactory connection successful"
+        jfrog rt dp "***artifactory/prova2:$(Build.BuildNumber)" "***artifactory/prova2/" --url="https://diocane.jfrog.io/artifactory" --user='fede' --password=';+i5}SAf^+x3F;*' --build-name="$(Build.DefinitionName)" --build-number="$(Build.BuildNumber)"
       else
         echo "Artifactory connection failed"
         exit 1
       fi
-  displayName: 'Check Artifactory Connection'
+    displayName: 'Check Artifactory Connection and Deploy'
+
