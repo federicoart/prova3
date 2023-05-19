@@ -15,7 +15,7 @@ steps:
     command: 'Build'
     Dockerfile: '**/Dockerfile'
     buildContext: '$(Build.SourcesDirectory)'
-    tags: '$(Build.BuildNumber)'
+    tags: 'latest'
 
 
 #- task: Docker@2
