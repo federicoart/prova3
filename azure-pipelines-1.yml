@@ -22,10 +22,10 @@ steps:
 
   - script: |
       apt-get update && apt-get install -yq curl
-      response=$(curl -I -u fede:';+i5}SAf^+x3F;*' -s -o /dev/null -w "%{http_code}" https://diocane.jfrog.io/artifactory/prova2/)
+      response=$(curl -I -u fede:';'+i5}SAf^+x3F';*' -s -o /dev/null -w "%{http_code}" https://diocane.jfrog.io/artifactory/prova2/)
       if [ $response -eq 200 ]; then
         echo "Artifactory connection successful"
-        jfrog rt dp "***artifactory/prova2:$(Build.BuildNumber)" "***artifactory/prova2/" --url="https://diocane.jfrog.io/artifactory" --user='fede' --password=';+i5}SAf^+x3F;*' --build-name="$(Build.DefinitionName)" --build-number="$(Build.BuildNumber)"
+        jfrog rt dp "*/artifactory/prova2:$(Build.BuildNumber)" "https://diocane.jfrog.io/artifactory/prova2/" --url="https://diocane.jfrog.io/artifactory" --user='fede' --password=';+i5}SAf^+x3F;*' --build-name="$(Build.DefinitionName)" --build-number="$(Build.BuildNumber)"
       else
         echo "Artifactory connection failed"
         exit 1
