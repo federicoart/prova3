@@ -30,6 +30,5 @@ steps:
   inputs:
      command: 'push'
      artifactoryService: 'newConnection'
-     targetRepo: 'prova2'
-     collectBuildInfo: true
-     imagename: 'https://diocane.jfrog.io/prova2:$(Build.BuildNumber)'
+     targetRepo: 'https://diocane.jfrog.io/artifactory/prova2/'
+     imagename: 'https://diocane.jfrog.io/artifactory/prova2/prova2:$(Build.BuildNumber)'
