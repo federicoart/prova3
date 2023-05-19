@@ -33,4 +33,3 @@ steps:
      targetRepo: 'prova2'
      collectBuildInfo: true
      imagename: 'diocane.jfrog.io/prova2:$(Build.DefinitionName)'
-     buildNumber: '$(Build.BuildNumber)'
