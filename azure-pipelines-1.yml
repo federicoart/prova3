@@ -32,4 +32,4 @@ steps:
      artifactoryService: 'newConnection'
      targetRepo: 'prova2'
      collectBuildInfo: true
-     imagename: 'diocane.jfrog.io/prova2:$(Build.DefinitionName)'
+     imagename: 'https://diocane.jfrog.io/prova2:$(Build.DefinitionName)'
