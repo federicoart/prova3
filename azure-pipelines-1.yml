@@ -3,8 +3,9 @@ trigger:
     include:
       - main
 
-pool: 'fede2WSL'
-  
+pool:
+  name: fede2WSL
+
 steps:
   - task: ArtifactoryToolsInstaller@1
     inputs:
@@ -25,10 +26,19 @@ steps:
       response=$(curl -I -u fede:';'+i5}SAf^+x3F';*' -s -o /dev/null -w "%{http_code}" https://diocane.jfrog.io/artifactory/prova2/)
       if [ $response -eq 200 ]; then
         echo "Artifactory connection successful"
-        jfrog rt dp "*/artifactory/prova2:$(Build.BuildNumber)" "https://diocane.jfrog.io/artifactory/prova2/" --url="https://diocane.jfrog.io/artifactory" --user='fede' --password=';+i5}SAf^+x3F;*' --build-name="$(Build.DefinitionName)" --build-number="$(Build.BuildNumber)"
       else
         echo "Artifactory connection failed"
         exit 1
       fi
-    displayName: 'Check Artifactory Connection and Deploy'
+    displayName: 'Check Artifactory Connection'
+
+  - task: ArtifactoryDocker@2
+    displayName: 'Push Docker Image to Artifactory'
+    inputs:
+      command: 'push'
+      imageName: 'prova2'
+      targetRepo: 'prova2'
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+      artifactoryService: 'newConnection'
 
