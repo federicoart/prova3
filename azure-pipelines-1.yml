@@ -15,8 +15,13 @@ steps:
     cliInstallationRepo: 'jfrogcli'
 - task: Docker@2
   inputs:
-    containerRegistry: 'fedeRegistry'
-    repository: 'prova2'
-    command: 'buildAndPush'
+
+    command: 'Build'
     Dockerfile: '**/Dockerfile'
 
+- task: Docker@2
+  inputs:
+    containerRegistry: 'fedeRegistry'
+    repository: 'prova2'
+    command: 'Push'
+    Dockerfile: '**/Dockerfile'
