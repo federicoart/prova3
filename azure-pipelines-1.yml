@@ -9,12 +9,10 @@ trigger:
 pool: 'fede2WSL'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 - task: Docker@2
   inputs:
     containerRegistry: 'fedeRegistry'
     repository: 'prova2'
     command: 'buildAndPush'
-    Dockerfile: '/_work/5/s/immagine/Dockerfile'
+    Dockerfile: '**/Dockerfile'
 
