@@ -21,18 +21,9 @@ steps:
       tags: '$(Build.BuildNumber)'
       buildContext: '$(Build.SourcesDirectory)'
 
-  - script: |
-      apt-get update && apt-get install -yq curl
-      response=$(curl -I -u fede:';'+i5}SAf^+x3F';*' -s -o /dev/null -w "%{http_code}" https://diocane.jfrog.io/artifactory/prova2/)
-      if [ $response -eq 200 ]; then
-        echo "Artifactory connection successful"
-      else
-        echo "Artifactory connection failed"
-        exit 1
-      fi
-    displayName: 'Check Artifactory Connection'
+ 
 
-  - task: ArtifactoryDocker@2
+  - task: ArtifactoryDocker@1
     displayName: 'Push Docker Image to Artifactory'
     inputs:
       command: 'push'
