@@ -19,9 +19,18 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'fedeRegistry'
+    command: 'pull'
+    repository: 'prova2'
+    Dockerfile: '**/Dockerfile'
+    buildContext: '$(Build.SourcesDirectory)'
+    tags: '$(Build.BuildNumber)'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'fedeRegistry'
     repository: 'prova2'
     command: 'Push'
     Dockerfile: '**/Dockerfile'
     tags: '$(Build.BuildNumber)'
     buildContext: '$(Build.SourcesDirectory)'
-    context: '$(Build.ArtifactStagingDirectory)' 
+    
