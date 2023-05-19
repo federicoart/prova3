@@ -7,29 +7,20 @@ pool:
   name: fede2WSL
 
 steps:
-  - task: ArtifactoryToolsInstaller@1
-    inputs:
-      artifactoryService: 'newConnection'
-      cliInstallationRepo: 'jfrogcli'
-
   - task: Docker@2
     inputs:
       containerRegistry: 'fedeRegistry'
-      repository: 'prova2'
+      repository: 'prova2/nginx'
       command: 'build'
       Dockerfile: '**/Dockerfile'
       tags: '$(Build.BuildNumber)'
       buildContext: '$(Build.SourcesDirectory)'
 
- 
-
   - task: ArtifactoryDocker@1
     displayName: 'Push Docker Image to Artifactory'
     inputs:
       command: 'push'
-      imageName: 'prova2'
-      targetRepo: 'prova2'
-      buildName: '$(Build.DefinitionName)'
-      buildNumber: '$(Build.BuildNumber)'
+      imageName: 'diocane.jfrog.io/prova2/nginx:$(Build.BuildNumber)'
+      targetRepo: 'prova2/nginx'
       artifactoryService: 'newConnection'
 
