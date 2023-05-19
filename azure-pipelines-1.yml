@@ -3,9 +3,8 @@ trigger:
     include:
       - main
 
-pool:
-  vmImage: 'ubuntu-latest'
-
+pool: 'fede2WSL'
+  
 steps:
   - task: ArtifactoryToolsInstaller@1
     inputs:
