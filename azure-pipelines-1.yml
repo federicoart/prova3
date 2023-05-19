@@ -1,33 +1,21 @@
 trigger:
-- main
+  branches:
+    include:
+      - main
 
-pool: 'fede2WSL'
+pool:
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: ArtifactoryToolsInstaller@1
-  inputs:
-    artifactoryService: 'newConnection'
-    cliInstallationRepo: 'jfrogcli'
-- task: Docker@2
-  inputs:
-    containerRegistry: 'fedeRegistry'
-    repository: 'prova2'
-    command: 'Build'
-    Dockerfile: '**/Dockerfile'
-    tags: 'latest'
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'fedeRegistry'
+      repository: 'prova2'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+      tags: '$(Build.BuildNumber)'
+      buildContext: '$(Build.SourcesDirectory)'
 
-
-#- task: Docker@2
-#  inputs:
-#    containerRegistry: 'fedeRegistry'
-#    repository: 'prova2'
-#    command: 'Push'
-#    Dockerfile: '$(Build.SourcesDirectory)/**/Dockerfile'
-#    tags: '$(Build.BuildNumber)'
-
-- task: ArtifactoryDocker@1
-  inputs:
-     command: 'push'
-     artifactoryService: 'newConnection'
-     targetRepo: 'https://diocane.jfrog.io/artifactory/prova2/'
-     imagename: 'https://diocane.jfrog.io/artifactory/prova2/prova2:$(Build.BuildNumber)'
+  - script: |
+      curl -u fede:';+i5}SAf^+x3F;*' -I https://diocane.jfrog.io/artifactory/prova2/
+    displayName: 'Check Artifactory Connection'
