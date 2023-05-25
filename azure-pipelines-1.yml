@@ -3,13 +3,11 @@ trigger:
     include:
       - main
 
+variables:
+  buildIdName: 'last'
+
 pool:
   name: fede2WSL
-
-parameters:
-  - name: buildTag
-    type: string
-    default: 'latest'  # Imposta il tag predefinito per la build
 
 steps:
   - task: Docker@2
@@ -18,16 +16,12 @@ steps:
       repository: 'prova2/nginx'
       command: 'build'
       Dockerfile: '**/Dockerfile'
-      containerTag: '$(buildTag)'  # Utilizza il tag specificato durante la build
-
-  - bash: |
-      echo "##vso[task.setvariable variable=imageTag]$(buildTag)"
-    displayName: 'Set Image Tag'
+      tags: '$(buildIdName)-$(Build.BuildId)'
 
   - task: ArtifactoryDocker@1
     displayName: 'Push Docker Image to Artifactory'
     inputs:
       command: 'push'
-      imageName: 'diobestia.jfrog.io/prova2/nginx:$(imageTag)'  # Utilizza il tag specificato durante la build nel push
+      imageName: 'diobestia.jfrog.io/prova2/nginx:$(buildIdName)-$(Build.BuildId)'
       targetRepo: 'prova2/nginx'
       artifactoryService: 'newConnection'
