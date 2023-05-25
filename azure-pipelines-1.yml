@@ -20,9 +20,8 @@ steps:
       Dockerfile: '**/Dockerfile'
       tags: '$(buildTag)'  # Utilizza il tag specificato durante la build
 
-  - script: |
-      echo "imageTag=$(buildTag)" >> $(Build.ArtifactStagingDirectory)/env.properties
-      echo "##vso[task.uploadartifact artifactname=env;]$(Build.ArtifactStagingDirectory)/env.properties"
+  - bash: |
+      echo "##vso[task.setvariable variable=imageTag]$(buildTag)"
     displayName: 'Set Image Tag'
 
   - task: ArtifactoryDocker@1
