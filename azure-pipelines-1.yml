@@ -13,14 +13,14 @@ steps:
       repository: 'prova2/nginx'
       command: 'build'
       Dockerfile: '**/Dockerfile'
-      tags: '$(Build.BuildNumber)'
+      tags: 'latest'
 
 
   - task: ArtifactoryDocker@1
     displayName: 'Push Docker Image to Artifactory'
     inputs:
       command: 'push'
-      imageName: 'diocane.jfrog.io/prova2/nginx:$(Build.BuildNumber)'
+      imageName: 'diobestia.jfrog.io/prova2/nginx:$(Build.BuildNumber)'
       targetRepo: 'prova2/nginx'
       artifactoryService: 'newConnection'
 
