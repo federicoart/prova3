@@ -5,7 +5,7 @@ trigger:
 
 variables:
   buildIdName: 'last'
-  Build.BuildId: 'latest'
+
 
 pool:
   name: fede2WSL
@@ -17,12 +17,12 @@ steps:
       repository: 'prova2/nginx'
       command: 'build'
       Dockerfile: '**/Dockerfile'
-      tags: '$(buildIdName)-$(Build.BuildId)'
+      tags: '$(buildIdName)- latest'
 
   - task: ArtifactoryDocker@1
     displayName: 'Push Docker Image to Artifactory'
     inputs:
       command: 'push'
-      imageName: 'diobestia.jfrog.io/prova2/nginx:$(buildIdName)-$(Build.BuildId)'
+      imageName: 'diobestia.jfrog.io/prova2/nginx:$(buildIdName)- latest'
       targetRepo: 'prova2/nginx'
       artifactoryService: 'newConnection'
