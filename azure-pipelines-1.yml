@@ -5,6 +5,7 @@ trigger:
 
 variables:
   buildIdName: 'last'
+  Build.BuildId: 'latest'
 
 pool:
   name: fede2WSL
