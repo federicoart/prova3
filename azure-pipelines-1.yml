@@ -20,7 +20,7 @@ steps:
     displayName: 'Push Docker Image to Artifactory'
     inputs:
       command: 'push'
-      imageName: 'diobestia.jfrog.io/prova2/nginx:$(Build.BuildNumber)'
+      imageName: 'diobestia.jfrog.io/prova2/nginx:$(Build)'
       targetRepo: 'prova2/nginx'
       artifactoryService: 'newConnection'
 
